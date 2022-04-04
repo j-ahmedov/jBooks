@@ -1,0 +1,32 @@
+
+.admin-login-card {
+    width: 50%;
+    margin: 150px auto;
+    padding: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.admin-login-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: rgb(67, 103, 150);
+    margin-top: 10px;
+    padding-bottom: 20px;
+
+}
+
+.admin-login-input {
+    margin-top: 15px;
+}
+
+.error-alert-container {
+    padding: 10px;
+    
+}
+
+.admin-login-button {
+    margin-top: 20px;
+    width: 50%;
+
+}
+

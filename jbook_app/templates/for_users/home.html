@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+
+{% block data_container %}
+  <div class="title-container" style="margin: 10px; font-weight: bold;">
+    Books
+  </div>
+  <div class="books-container">
+    <div class="card mb-3" style="max-width: 800px; padding: 5px;">
+      <div class="row g-0">
+        <div class="col-md-4 book-image-container">
+          <img src="https://cdn.asaha.com/assets/thumbs/9b8/9b88b7c17f496a61fc78505130af288e.jpg" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">Book title</h5>
+            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+            <div class="card-author-container">
+              <p class="card-text">Author:</p>
+              <p class="card-text card-author-text">Aaron Jenkins</p>
+            </div>
+            <button type="button" class="btn btn-outline-success">Download</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

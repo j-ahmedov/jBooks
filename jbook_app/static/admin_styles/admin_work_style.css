@@ -1,0 +1,35 @@
+.workspace-main-container {
+    width: 90%;
+    margin: 100px auto;
+}
+
+.logout-container {
+    display: flex;
+    justify-content: end;
+    margin-top: 20px;
+    padding-right: 30px;
+}
+
+.admin-username {
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(67, 103, 150);
+    margin: auto 0px;
+    margin-right: 10px;
+}
+
+.logout-button {
+    height: 40px;
+    margin: auto 0px;
+}
+
+.add-book-button-container {
+    display: flex;
+    justify-content: right;
+}
+
+.workspace-table-container {
+    margin-top: 10px;
+    background-color: white;
+    padding: 20px;
+}

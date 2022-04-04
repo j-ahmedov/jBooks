@@ -1,0 +1,31 @@
+{% extends "admin.html" %}
+
+{% block admin_workspace %}
+
+    <form class="card text-center admin-login-card" method="post" style="width: 22rem;">
+        <div class="card-body">
+        <h5 class="card-title admin-login-title">Admin login</h5>
+        
+        <input class="form-control admin-login-input" type="text" 
+            name="admin_username" placeholder="Username">
+
+        <input class="form-control admin-login-input" type="password" 
+            name="admin_password" placeholder="Password">
+
+        <div class="error-alert-container">
+            {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                    <!-- Do something with the message -->
+                        <div class="alert alert-danger" role="alert">
+                            {{ messages[0] }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+            {% endwith %}
+        </div>
+        <button class="btn btn-primary admin-login-button" type="submit">Login</button>
+        </div>
+    </form>
+
+{% endblock%}

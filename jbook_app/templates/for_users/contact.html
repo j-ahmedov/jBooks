@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+
+{% block data_container %}
+  <!-- <div class="title-container" style="margin: 10px; font-weight: bold;">
+    Contact Us
+  </div> -->
+
+  <div class="contact-form-container">
+    <div class="card contact-card">
+      <!-- <h5 class="card-header">Featured</h5> -->
+      <div class="card-body">
+        <h5 class="card-title contact-form-title">Contact Us</h5>
+        <div class="contact-detail-container">
+          <input class="form-control contact-detail-input" type="text" placeholder="Your Name" aria-label="default input example">
+          <input class="form-control contact-detail-input" type="email" placeholder="Your Email" aria-label="default input example">
+        </div>
+        <div class="mb-3">
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="Message"></textarea>
+        </div>
+        <div class="contact-form-button">
+          <a href="#" class="btn btn-primary ">Send message</a>
+        </div>
+      </div>
+    </div>
+  
+  </div>
+{% endblock %}

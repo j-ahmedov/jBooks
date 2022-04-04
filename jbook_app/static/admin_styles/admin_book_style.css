@@ -1,0 +1,44 @@
+.admin-book-container {
+    width: 80%;
+    margin: 100px auto;
+    padding: 20px;
+    background-color: white;
+}
+
+.admin-book-title {
+    margin-left: 10px;
+    font-size: 30px;
+    font-weight: bold;
+    color: rgb(67, 103, 150);
+}
+
+.admin-input-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.book-input-group1 {
+    width: 50%;
+    padding: 20px;
+}
+
+.book-input-group2 {
+    width: 50%;
+    padding: 20px;
+}
+
+.form-label {
+    color: rgb(67, 103, 150);
+    font-weight: bold;
+}
+
+.admin-book-button-container {
+    padding-top: 15px;
+    display: flex;
+    justify-content: right;
+}
+
+.admin-book-button {
+    width: 100px;
+    margin-left: 8px;
+}

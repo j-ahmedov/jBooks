@@ -1,0 +1,20 @@
+.book-image-container {
+    padding: 5px;
+    width: 150px; 
+    height: 200px
+}
+
+.card-author-container {
+    display: flex;
+}
+
+.card-author-text {
+    color: rgb(81, 81, 190);
+    margin-left: 5px;
+}
+
+.card-details-content {
+    display: flex;
+    margin-left: 5px;
+}
+
