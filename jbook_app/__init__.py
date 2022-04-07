@@ -1,3 +1,5 @@
+from multiprocessing import AuthenticationError
+from datetime import datetime
 from flask import Flask, session
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
@@ -12,6 +14,7 @@ my_app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 db = SQLAlchemy(my_app)
 
 
+# -------------------------Models--------------------------------------
 # Model Admin
 class Admin(db.Model):
     __tablename__ = 'admins'
@@ -24,7 +27,7 @@ class Admin(db.Model):
         self.username = username
         self.password = password
 
-
+# ----------------------------------------------------
 # Model Book
 class Book(db.Model):
     __tablename__ = "books"
@@ -53,9 +56,12 @@ class Book(db.Model):
         self.file_data = file_data
         self.added_date = added_date
         self.admin = admin
-    
 
-# Function to check admin username and password
+ # ------------------------------------------------------------------------------------------
+
+
+# ----------------------------------Functions------------------------------------------------
+# Function to check admin username and password already exist
 def checkAdmin(_username, _password):
     adminResult = db.session.query(Admin).filter(
         Admin.username == _username,
@@ -71,6 +77,49 @@ def checkAdmin(_username, _password):
                 return True
 
     return False
+
+# ---------------------------------------------------------------
+# Function to check wether the book data already exists 
+def checkBook(_bookTitle, _bookAuthor):
+    bookResult = db.session.query(Book).filter(
+        Book.title == _bookTitle,
+        Book.author == _bookAuthor
+    )
+
+    for result in bookResult:
+        if result is not None:
+            if result.title == _bookTitle and result.author == _bookAuthor:
+                return True
+    return False
+
+# ---------------------------------------------------------------------------
+# Function to add book data to Database
+def bookAdd(_bookTitle, _bookAuthor, _bookDescription, _bookCategory, _bookImage, _bookFile, _admin):
+
+    book = Book(
+        title=_bookTitle,
+        author=_bookAuthor,
+        description=_bookDescription,
+        category=_bookCategory,
+        img_name=_bookImage.filename,
+        img_data=_bookImage.read(),
+        file_name=_bookFile.filename,
+        file_data=_bookFile.read(),
+        added_date=datetime.now().date(),
+        admin=_admin)
+
+    try:
+        db.session.add(book)
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return False
+    return True
+
+# ---------------------------------------------------------
+# Function, that returns all book data from database
+def getAllBook():
+    return Book.query.all()
 
 
 from jbook_app import views

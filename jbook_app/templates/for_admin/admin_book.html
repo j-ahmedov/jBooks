@@ -3,7 +3,7 @@
 {% block admin_workspace %}
 
     
-    <form class="admin-book-container" method="post">
+    <form class="admin-book-container" enctype="multipart/form-data" method="post">
 
         <div class="warning-alert-container">
             {% with messages = get_flashed_messages() %}
@@ -20,44 +20,48 @@
 
         <div class="admin-book-title">
             Book Add
-        </div>
-
+        </div>       
+    
         <div class="admin-input-container">
-            
             <div class="book-input-group1">
-                <input class="form-control admin-login-input" type="text" name="book_title" placeholder="Title">
-                <input class="form-control admin-login-input" type="text" name="book_author" placeholder="Author">
+
+                <input class="form-control admin-login-input" type="text" name="book_title" 
+                placeholder="Title" required>
+
+                <input class="form-control admin-login-input" type="text" name="book_author" 
+                placeholder="Author" required>
                 <div class="mb-3" style="margin-top: 10px;">
-                    <textarea class="form-control" name="book_description" rows="7" placeholder="Description"></textarea>
+                    <textarea class="form-control" name="book_description" rows="7" 
+                    placeholder="Description" required></textarea>
                 </div>
             </div>
 
             <div class="book-input-group2">
-                <select class="form-select" name="book_category" style="margin-top: 15px;">
-                    <option selected>Category</option>
-                    <option value="1">Science</option>
-                    <option value="2">Literature</option>
-                    <option value="3">Language</option>
-                    <option value="4">Business</option>
-                    <option value="5">Programming</option>
-                    <option value="6">Self development</option>
+                <select class="form-select" aria-placeholder="Category" name="book_category" style="margin-top: 15px;" required>
+                    <option value="">Category</option>
+                    <option value="Science">Science</option>
+                    <option value="Literature">Literature</option>
+                    <option value="Language">Language</option>
+                    <option value="Business">Business</option>
+                    <option value="Programming">Programming</option>
+                    <option value="Self development">Self development</option>
                 </select>
                 <div class="mb-3" style="margin-top: 15px;">
                     <label for="formFile" class="form-label">Upload image of book</label>
-                    <input class="form-control" type="file" name="book_img">
+                    <input class="form-control" type="file" name="book_img" accept=".jpg, .png, .jpeg, .gif" required>
                 </div>
                 <div class="mb-3" style="margin-top: 10px;">
                     <label for="formFile" class="form-label">Upload book in pdf format</label>
-                    <input class="form-control" type="file" name="book_file">
+                    <input class="form-control" type="file" name="book_file" accept=".pdf" required>
                 </div> 
                 <div class="admin-book-button-container">
-                    <button type="button" class="btn btn-danger admin-book-button">Delete</button>
+            
+                    <button type="button" class="btn btn-danger admin-book-button">Delete</button>        
                     <button type="button" class="btn btn-warning admin-book-button">Cancel</button>
                     <button class="btn btn-success admin-book-button" type="submit">Save</button>
                     
                 </div>
             </div>
-
         </div>
 
     </form>

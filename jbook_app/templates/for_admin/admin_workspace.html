@@ -10,14 +10,13 @@
 </div>
 
 <div class="workspace-main-container">
-    
 
     <div class="add-book-button-container">
         <button type="button" class="btn btn-success add-book-button">Add book</button>
     </div>
     
     <div class="workspace-table-container">
-        <table id="example" class="table table-striped" style="width:100%;">
+        <table id="bookDataTable" class="table table-striped" style="width:100%;">
             <thead>
                 <tr>
                     <th>Title</th>
@@ -25,66 +24,22 @@
                     <th>Description</th>
                     <th>Category</th>
                     <th>Image</th>
-                    <th>File link</th>
+                    <th>File</th>
                     <th>Added date</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>Tiger Nixon</td>
-                    <td>System Architect</td>
-                    <td>Edinburgh</td>
-                    <td>61</td>
-                    <td>2011/04/25</td>
-                    <td>$320,800</td>
-                    <td>$320,800</td>
-                </tr>
-                <tr>
-                    <td>Garrett Winters</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>63</td>
-                    <td>2011/07/25</td>
-                    <td>$170,750</td>
-                    <td>$170,750</td>
-                </tr>
-                <tr>
-                    <td>Ashton Cox</td>
-                    <td>Junior Technical Author</td>
-                    <td>San Francisco</td>
-                    <td>66</td>
-                    <td>2009/01/12</td>
-                    <td>$86,000</td>
-                    <td>$86,000</td>
-                </tr>
-                <tr>
-                    <td>Cedric Kelly</td>
-                    <td>Senior Javascript Developer</td>
-                    <td>Edinburgh</td>
-                    <td>22</td>
-                    <td>2012/03/29</td>
-                    <td>$433,060</td>
-                    <td>$433,060</td>
-                </tr>
-                <tr>
-                    <td>Airi Satou</td>
-                    <td>Accountant</td>
-                    <td>Tokyo</td>
-                    <td>33</td>
-                    <td>2008/11/28</td>
-                    <td>$162,700</td>
-                    <td>$162,700</td>
-                </tr>
-                <tr>
-                    <td>Brielle Williamson</td>
-                    <td>Integration Specialist</td>
-                    <td>New York</td>
-                    <td>61</td>
-                    <td>2012/12/02</td>
-                    <td>$372,000</td>
-                    <td>$372,000</td>
-                </tr>
-                
+                {% for i in books %}
+                    <tr class="table-row">
+                        <td>{{ i.title }}</td>
+                        <td>{{ i.author }}</td>
+                        <td>{{ i.description }}</td>
+                        <td>{{ i.category }}</td>
+                        <td>{{ i.img_name }}</td>
+                        <td>{{ i.file_name }}</td>
+                        <td>{{ i.added_date }}</td>
+                    </tr>
+                {% endfor %}
             </tbody>
            
         </table>
@@ -94,15 +49,3 @@
 
 {% endblock %}
 
-<script>
-    $(document).ready(function() {
-
-        var table = $('#example').DataTable();
-    
-        $('#example tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        alert(data);
-        } );
-
-    } );
-</script>
