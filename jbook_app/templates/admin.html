@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../static/admin_styles/admin_login_style.css">   
     <link rel="stylesheet" href="../static/admin_styles/admin_work_style.css">   
     <link rel="stylesheet" href="../static/admin_styles/admin_book_style.css">   
+    <link rel="stylesheet" href="../static/styles/main_style.css">   
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.min.css">
@@ -23,18 +24,77 @@
     <script src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.min.js"></script>
        <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/93371e03c6.js" crossorigin="anonymous"></script>
     
     <script>
         $(document).ready(function() {
     
             var table = $('#bookDataTable').DataTable();
+            table.columns( [0] ).visible( false );
         
             $('#example tbody').on('click', 'tr', function () {
             var data = table.row(this).data();
-            alert(data);
+            // alert(data);
             } );
     
         } );
+    </script>
+
+    <script>
+
+        function showEditDialog() {
+            var table = $('#bookDataTable').DataTable();
+ 
+            $('#bookDataTable tbody').on( 'click', 'tr', function () {
+                var my_data = table.row( this ).data();
+                $('#bookID').val(my_data[0]);
+                $('#bookTitleInput').val(my_data[1]);
+                $('#bookAuthorInput').val(my_data[2])
+                $('#bookDescriptionInput').val(my_data[3])
+                $('#bookCategoryInput').val(my_data[4])
+            } );
+            document.getElementById('editBookDialog').style.display = "";
+        }
+
+        function hideEditDialog() {
+            var table = $('#bookDataTable').DataTable();
+ 
+            $('#bookDataTable tbody').on( 'click', 'tr', function () {
+                var my_data = table.row( this ).data();
+                $('#bookID').val('');
+                $('#bookTitleInput').val('');
+                $('#bookAuthorInput').val('')
+                $('#bookDescriptionInput').val('')
+                $('#bookCategoryInput').val('')
+            } );
+            document.getElementById('editBookDialog').style.display = "none";
+        }
+
+
+        function showDeleteDialog() {
+            var table = $('#bookDataTable').DataTable();
+ 
+            $('#bookDataTable tbody').on( 'click', 'tr', function () {
+                var my_data = table.row( this ).data();
+                $('#bookID').val(my_data[0]);
+                $('#deleteBookTitle').html(my_data[1]);
+                $('#deleteBookAuthor').html(my_data[2])
+            } );
+            document.getElementById('deleteBookDialog').style.display = "";
+        }
+
+        function hideDeleteDialog() {
+            $('#bookID').val('');
+            $('#deleteBookTitle').val('')
+            $('#deleteBookAuthor').val('')
+            document.getElementById('deleteBookDialog').style.display = "none";
+        }
+
+        function linkToDeleteBook() {
+            var link_id = $('#bookID').val()
+            window.open('/admin/delete-book/' + link_id)
+        }
+
     </script>
 </body>
 </html>

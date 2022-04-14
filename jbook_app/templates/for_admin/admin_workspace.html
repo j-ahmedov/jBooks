@@ -2,6 +2,7 @@
 
 {% block admin_workspace %}
 
+<!------------------- Main workspace ----------------------->
 <div class="logout-container">
     <p class="admin-username">{{ admin_name }}</p>
     <a href="/admin-logout">
@@ -9,16 +10,20 @@
     </a>
 </div>
 
+
 <div class="workspace-main-container">
 
     <div class="add-book-button-container">
-        <button type="button" class="btn btn-success add-book-button">Add book</button>
+        <a href="admin/add-book">
+            <button type="button" class="btn btn-success add-book-button">Add book</button>
+        </a>
     </div>
     
     <div class="workspace-table-container">
         <table id="bookDataTable" class="table table-striped" style="width:100%;">
             <thead>
                 <tr>
+                    <th>ID</th>
                     <th>Title</th>
                     <th>Author</th>
                     <th>Description</th>
@@ -26,18 +31,31 @@
                     <th>Image</th>
                     <th>File</th>
                     <th>Added date</th>
+                    <th data-sortable="false"></th>
+                    <th data-sortable="false"></th>
                 </tr>
             </thead>
             <tbody>
                 {% for i in books %}
                     <tr class="table-row">
+                        <td>{{ i.id }}</td>
                         <td>{{ i.title }}</td>
                         <td>{{ i.author }}</td>
                         <td>{{ i.description }}</td>
                         <td>{{ i.category }}</td>
-                        <td>{{ i.img_name }}</td>
-                        <td>{{ i.file_name }}</td>
+                        <td><a class="download-link" href='/download-img/{{ i.id }}'>{{ i.img_name }}</a></td>
+                        <td><a class="download-link" href='/download-file/{{ i.id }}'>{{ i.file_name }}</a></td>
                         <td>{{ i.added_date }}</td>
+                        <td>
+                            <button name="editBookButton" onclick="showEditDialog()" id="editBookButton" style="border:none">
+                                <i class="fa-solid fa-pencil"></i>
+                            </button>    
+                        </td>
+                        <td>
+                            <button id="deleteBookButton" onclick="showDeleteDialog()" style="border:none">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -45,7 +63,85 @@
         </table>
     </div>
 </div>
+<!-------------------------------------------------------------->
 
+<div class="popup-window-container" id="editBookDialog" style="display: none;">
+    <form class="admin-book-container" enctype="multipart/form-data" method="post">
+
+        <div class="title-container">
+            Edit Book
+        </div>
+        <input id="bookID" name="bookId" style="display: none;">
+        
+    
+        <div class="admin-input-container">
+            <div class="book-input-group1">
+    
+                <input class="form-control admin-login-input" id="bookTitleInput" type="text" name="book_title" 
+                placeholder="Title" required>
+    
+                <input class="form-control admin-login-input" id="bookAuthorInput" type="text" name="book_author" 
+                placeholder="Author" required>
+                <div class="mb-3" style="margin-top: 10px;">
+                    <textarea class="form-control" id="bookDescriptionInput" name="book_description" rows="7" 
+                    placeholder="Description" required></textarea>
+                </div>
+            </div>
+    
+            <div class="book-input-group2">
+                <select class="form-select" aria-placeholder="Category" id="bookCategoryInput" name="book_category" style="margin-top: 15px;" required>
+                    <option value="">Category</option>
+                    <option value="Science">Science</option>
+                    <option value="Literature">Literature</option>
+                    <option value="Language">Language</option>
+                    <option value="Business">Business</option>
+                    <option value="Programming">Programming</option>
+                    <option value="Self development">Self development</option>
+                </select>
+                <div class="mb-3" style="margin-top: 15px;">
+                    <label for="formFile" class="form-label">Upload image of book</label>
+                    <input class="form-control" type="file" name="book_img" accept=".jpg, .png, .jpeg, .gif" required>
+                </div>
+                <div class="mb-3" style="margin-top: 10px;">
+                    <label for="formFile" class="form-label">Upload book in pdf format</label>
+                    <input class="form-control" type="file" name="book_file" accept=".pdf" required>
+                </div> 
+                <div class="admin-book-button-container">
+                
+                    <button id="cancelBookButton" type="button" onclick="hideEditDialog()" class="btn btn-warning admin-book-button">Cancel</button>
+                    <button class="btn btn-success admin-book-button" type="submit">Save</button>
+                    
+                </div>
+            </div>
+        </div>
+    
+    </form>
+</div>
+
+<!-------------------------------------------------------------------------------->
+
+
+<div class="popup-window-container" id="deleteBookDialog" style="display: none">
+    <div class="delete-book-container">
+        <h3 class="form-label sure-delete-txt">Are you sure to delete this book ?</h2>
+        <input id="bookID" name="bookId" style="display: none;">
+        <a style="font-size: 20px; font-weight: bold;">Title: </a>
+        <a id="deleteBookTitle" style="font-size: 20px;"></a>
+        <br>
+        <a style="font-size: 20px; font-weight: bold;">Author: </a>
+        <a id="deleteBookAuthor" style="font-size: 20px;"></a>
+        
+
+        <div class="admin-book-button-container">
+            
+            <button type="button" id="deleteBookButton" onclick="linkToDeleteBook()" class="btn btn-danger admin-book-button">Delete</button>        
+            
+            <button id="cancelDeleteButton" onclick="hideDeleteDialog()" type="button" class="btn btn-warning admin-book-button">Cancel</button>
+            
+        </div>
+
+    </div>
+</div>
 
 {% endblock %}
 

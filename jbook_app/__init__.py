@@ -1,8 +1,8 @@
-from multiprocessing import AuthenticationError
 from datetime import datetime
-from flask import Flask, session
+from flask import Flask, send_file, session
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
+from io import BytesIO
 
 
 my_app = Flask(__name__)
@@ -121,6 +121,28 @@ def bookAdd(_bookTitle, _bookAuthor, _bookDescription, _bookCategory, _bookImage
 def getAllBook():
     return Book.query.all()
 
+
+def getBookById(book_id):
+    book = Book.query.filter_by(id=book_id).first()
+    book_dict = {
+        'title': book.title,
+        'author': book.author,
+        'description': book.description,
+        'category': book.category
+    }
+    return book_dict
+
+
+@my_app.route('/download-img/<book_id>')
+def download_img(book_id):
+    book = Book.query.filter_by(id=book_id).first()
+    return send_file(BytesIO(book.img_data), attachment_filename=book.img_name, as_attachment=True)
+
+
+@my_app.route('/download-file/<book_id>')
+def download_file(book_id):
+    book = Book.query.filter_by(id=book_id).first()
+    return send_file(BytesIO(book.file_data), attachment_filename=book.file_name, as_attachment=True)
 
 from jbook_app import views
 from jbook_app import admin_views

@@ -1,4 +1,4 @@
-from jbook_app import getAllBook, my_app, checkAdmin, checkBook, bookAdd
+from jbook_app import getAllBook, my_app, checkAdmin, checkBook, bookAdd, getBookById
 from flask import render_template, redirect, request, session, url_for, flash
 
     
@@ -12,14 +12,14 @@ def handleFormData():
     admin_name = session['username']
 
     if checkBook(book_title, book_author):
-        flash(f'The book already exists! <br/>Title: {book_title} <br/>Author: {book_author}')
-        return redirect(url_for('admin_book'))
+        # flash(f'The book already exists! <br/>Title: {book_title} <br/>Author: {book_author}')
+        return redirect(url_for('admin_work'))
     
     if bookAdd(book_title, book_author, book_description, book_category, book_img, book_file, admin_name):
         return redirect(url_for('admin_work'))
     else:
-        flash('Cannot upload book data to database')
-        return redirect(url_for('admin_book'))
+        # flash('Cannot upload book data to database')
+        return redirect(url_for('admin_work'))
 
 
 # These are for admin pages
@@ -43,21 +43,38 @@ def my_admin():
 @my_app.route('/admin-work', methods=["POST", "GET"])
 def admin_work():
     if 'loggedin' in session:
-        admin_name = session['username']
-        _books = getAllBook()
-        return render_template('for_admin/admin_workspace.html', admin_name=admin_name, books=_books)
+        if request.method == "GET":
+            admin_name = session['username']
+            _books = getAllBook()
+            return render_template('for_admin/admin_workspace.html', admin_name=admin_name, books=_books)
+        elif request.method == "POST":
+            print(request.form.get('bookId'))
+            return redirect(url_for('admin_work'))
+        
+            
     else:
         return redirect(url_for('my_admin'))
+ 
 
-
-@my_app.route('/admin-book', methods=["POST", "GET"])
-def admin_book():
+@my_app.route('/admin/add-book', methods=["POST", "GET"])
+def addBook():
     if 'loggedin' in session:
-        if request.method == "POST":
-            handleFormData()
-        return render_template('for_admin/admin_book.html')
+        # if request.method == "POST":
+        #     handleFormData()
+        return render_template('for_admin/admin_book.html', formTitle='Add Book')
     else:
         return redirect(url_for('my_admin'))
+
+
+# @my_app.route('/admin/edit-book/<int:book_id>', methods=["POST", "GET"])
+# def editBook(book_id):
+#     if 'loggedin' in session:
+#         bookDict = getBookById(book_id)
+#         # if request.method == "POST":
+#         #     handleFormData()
+#         return render_template('for_admin/admin_book.html', formTitle='Edit Book')
+#     else:
+#         return redirect(url_for('my_admin'))
 
 
 @my_app.route('/admin-logout')

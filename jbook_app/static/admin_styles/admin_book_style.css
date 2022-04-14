@@ -1,9 +1,12 @@
 .admin-book-container {
-    width: 80%;
+    width: 60%;
+    height: 80%;
     margin: 100px auto;
     padding: 20px;
     background-color: white;
+    
 }
+
 
 .admin-book-title {
     margin-left: 10px;
@@ -11,6 +14,7 @@
     font-weight: bold;
     color: rgb(67, 103, 150);
 }
+
 
 .admin-input-container {
     display: flex;
@@ -32,11 +36,16 @@
     font-weight: bold;
 }
 
+.sure-delete-txt {
+    font-size: 24px;
+}
+
 .admin-book-button-container {
     padding-top: 15px;
     display: flex;
     justify-content: right;
 }
+
 
 .admin-book-button {
     width: 100px;
