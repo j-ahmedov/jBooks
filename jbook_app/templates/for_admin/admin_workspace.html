@@ -10,6 +10,18 @@
     </a>
 </div>
 
+<div class="warning-alert-container">
+    {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+            <!-- Do something with the message -->
+                <div class="alert alert-warning" role="alert">
+                    {{ messages[0] }}
+                </div>
+                {% endfor %}
+            {% endif %}
+    {% endwith %}
+</div>
 
 <div class="workspace-main-container">
 
@@ -71,7 +83,7 @@
         <div class="title-container">
             Edit Book
         </div>
-        <input id="bookID" name="bookId" style="display: none;">
+        <input id="bookID" name="book_id" style="display: none;">
         
     
         <div class="admin-input-container">
@@ -109,7 +121,7 @@
                 <div class="admin-book-button-container">
                 
                     <button id="cancelBookButton" type="button" onclick="hideEditDialog()" class="btn btn-warning admin-book-button">Cancel</button>
-                    <button class="btn btn-success admin-book-button" type="submit">Save</button>
+                    <button class="btn btn-success admin-book-button" type="submit">Update</button>
                     
                 </div>
             </div>

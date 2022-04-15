@@ -61,7 +61,7 @@ class Book(db.Model):
 
 
 # ----------------------------------Functions------------------------------------------------
-# Function to check admin username and password already exist
+# Function to check if admin username and password already exist
 def checkAdmin(_username, _password):
     adminResult = db.session.query(Admin).filter(
         Admin.username == _username,
@@ -79,7 +79,7 @@ def checkAdmin(_username, _password):
     return False
 
 # ---------------------------------------------------------------
-# Function to check wether the book data already exists 
+# Function to check if the book data already exists 
 def checkBook(_bookTitle, _bookAuthor):
     bookResult = db.session.query(Book).filter(
         Book.title == _bookTitle,
@@ -94,7 +94,7 @@ def checkBook(_bookTitle, _bookAuthor):
 
 # ---------------------------------------------------------------------------
 # Function to add book data to Database
-def bookAdd(_bookTitle, _bookAuthor, _bookDescription, _bookCategory, _bookImage, _bookFile, _admin):
+def addBook(_bookTitle, _bookAuthor, _bookDescription, _bookCategory, _bookImage, _bookFile, _admin):
 
     book = Book(
         title=_bookTitle,
@@ -122,27 +122,49 @@ def getAllBook():
     return Book.query.all()
 
 
-def getBookById(book_id):
-    book = Book.query.filter_by(id=book_id).first()
-    book_dict = {
-        'title': book.title,
-        'author': book.author,
-        'description': book.description,
-        'category': book.category
-    }
-    return book_dict
+# -------------------------------------------------------
+# Function to delete book by ID
+def deleteBookById(book_id):
+    if Book.query.filter_by(id=book_id).delete():
+        return True
+    return False
 
 
+# ------------------------------------------------------
+# Function to update book data on database
+def updateBook(_bookId, _bookTitle, _bookAuthor, _bookDescription, _bookCategory, _bookImage, _bookFile, _admin):
+    book = Book.query.filter_by(id=_bookId).first()
+    if book is not None:
+        book.title=_bookTitle,
+        book.author=_bookAuthor,
+        book.description=_bookDescription,
+        book.category=_bookCategory,
+        book.img_name=_bookImage.filename,
+        book.img_data=_bookImage.read(),
+        book.file_name=_bookFile.filename,
+        book.file_data=_bookFile.read(),
+        book.added_date=datetime.now().date(),
+        book.admin=_admin
+        db.session.commit()
+        return True
+    return False
+
+# ----------------------------------------------------
+# Function to download book image from database
 @my_app.route('/download-img/<book_id>')
 def download_img(book_id):
     book = Book.query.filter_by(id=book_id).first()
     return send_file(BytesIO(book.img_data), attachment_filename=book.img_name, as_attachment=True)
 
 
+# ----------------------------------------------------
+# Function to download book file from database
 @my_app.route('/download-file/<book_id>')
 def download_file(book_id):
     book = Book.query.filter_by(id=book_id).first()
     return send_file(BytesIO(book.file_data), attachment_filename=book.file_name, as_attachment=True)
+
+
 
 from jbook_app import views
 from jbook_app import admin_views
