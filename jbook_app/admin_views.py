@@ -29,8 +29,14 @@ def admin_work():
             _books = getAllBook()
             return render_template('for_admin/admin_workspace.html', admin_name=admin_name, books=_books)
         elif request.method == "POST":
-            handeToUpdate()
+            if handleToUpdate():
+                flash('The book has been successfully updated')
+                return redirect(url_for('admin_work'))
+            else:
+                flash('Cannot update book')
+                return redirect(url_for('admin_work'))
 
+        
     else:
         return redirect(url_for('my_admin'))
  
@@ -40,7 +46,17 @@ def admin_work():
 def add_book():
     if 'loggedin' in session:
         if request.method == "POST":
-            handleToAdd()
+            if bookExists():
+                flash('The book already exists!')
+                return redirect(url_for('add_book'))
+
+            if handleToAdd():
+                flash('The book has been successfully added')
+                redirect(url_for('admin_work'))
+            else:
+                flash('Cannot upload book to database')
+                redirect(url_for('admin_work'))
+        return render_template('for_admin/admin_book.html')
     else:
         return redirect(url_for('my_admin'))
 
@@ -66,6 +82,15 @@ def logout():
     session.pop('username', None)
     return redirect(url_for('my_admin'))
 
+# ------------------------------------------------------------------
+# Function to add book data to database 
+
+def bookExists():
+    book_title = request.form.get("book_title")
+    book_author = request.form.get("book_author")
+    if checkBook(book_title, book_author):
+        return True
+    return False
 
 # ------------------------------------------------------------------
 # Function to add book data to database    
@@ -77,22 +102,16 @@ def handleToAdd():
     book_img = request.files['book_img']
     book_file = request.files['book_file']
     admin_name = session['username']
-
-    if checkBook(book_title, book_author):
-        flash(f'The book already exists! <br/>Title: {book_title} <br/>Author: {book_author}')
-        return redirect(url_for('add_book'))
     
     if addBook(book_title, book_author, book_description, book_category, book_img, book_file, admin_name):
-        flash('The book has been successfully added')
-        return redirect(url_for('admin_work'))
+        return True
     else:
-        flash('Cannot upload book to database')
-        return redirect(url_for('admin_work'))
+        return False
 
 
 # ------------------------------------------------------------------
 # Function to handle form values to update data on database
-def handeToUpdate():
+def handleToUpdate():
     book_id = request.form.get('book_id')
     book_title = request.form.get("book_title")
     book_author = request.form.get("book_author")
@@ -102,12 +121,9 @@ def handeToUpdate():
     book_file = request.files['book_file']
     admin_name = session['username']
 
-
     if updateBook(book_id, book_title, book_author, book_description, book_category, book_img, book_file, admin_name):
-        flash('The book has been successfully updated')
-        return redirect(url_for('admin_work'))
+        return True
         
     else:
-        flash('Cannot update book')
-        return redirect(url_for('admin_work'))
+        return False
        

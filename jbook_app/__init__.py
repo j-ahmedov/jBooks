@@ -125,9 +125,13 @@ def getAllBook():
 # -------------------------------------------------------
 # Function to delete book by ID
 def deleteBookById(book_id):
-    if Book.query.filter_by(id=book_id).delete():
-        return True
-    return False
+    Book.query.filter_by(id=book_id).delete()
+    try:
+        db.session.commit()
+    except Exception as e:
+        print(e)
+        return False
+    return True
 
 
 # ------------------------------------------------------
@@ -135,17 +139,25 @@ def deleteBookById(book_id):
 def updateBook(_bookId, _bookTitle, _bookAuthor, _bookDescription, _bookCategory, _bookImage, _bookFile, _admin):
     book = Book.query.filter_by(id=_bookId).first()
     if book is not None:
-        book.title=_bookTitle,
-        book.author=_bookAuthor,
-        book.description=_bookDescription,
-        book.category=_bookCategory,
-        book.img_name=_bookImage.filename,
-        book.img_data=_bookImage.read(),
-        book.file_name=_bookFile.filename,
-        book.file_data=_bookFile.read(),
-        book.added_date=datetime.now().date(),
-        book.admin=_admin
-        db.session.commit()
+        Book.query.filter_by(id=_bookId).update(
+            {
+                'title': _bookTitle,
+                'author': _bookAuthor,
+                'description': _bookDescription,
+                'category': _bookCategory,
+                'img_name': _bookImage.filename,
+                'img_data': _bookImage.read(),
+                'file_name': _bookFile.filename,
+                'file_data': _bookFile.read(),
+                'admin': _admin
+            }
+        )
+
+        try:
+            db.session.commit()
+        except Exception as e:
+            print(e)
+            return False
         return True
     return False
 
