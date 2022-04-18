@@ -2,19 +2,6 @@
 
 {% block admin_workspace %}
 
-<div class="warning-alert-container">
-    {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-            <!-- Do something with the message -->
-                <div class="alert alert-warning" role="alert">
-                    {{ messages[0] }}
-                </div>
-                {% endfor %}
-            {% endif %}
-    {% endwith %}
-</div>
-
 
 <form class="admin-book-container" enctype="multipart/form-data" method="post">
 
@@ -22,6 +9,19 @@
         Add Book
     </div>
 
+    <div class="admin-book-alert-container">
+        {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                <!-- Do something with the message -->
+                    <div class="alert alert-warning" role="alert">
+                        {{ messages[0] }}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+        {% endwith %}
+    </div>
+    
     <div class="admin-input-container">
         <div class="book-input-group1">
 

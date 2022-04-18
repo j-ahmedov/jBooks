@@ -53,7 +53,9 @@
                 $('#bookDescriptionInput').val(my_data[3])
                 $('#bookCategoryInput').val(my_data[4])
             } );
-            document.getElementById('editBookDialog').style.display = "";
+            var editDialog = document.getElementById('editBookDialog');
+            editDialog.style.visibility = "visible";
+            editDialog.style.opacity = "1";
         }
 
         function hideEditDialog() {
@@ -67,7 +69,9 @@
                 $('#bookDescriptionInput').val('')
                 $('#bookCategoryInput').val('')
             } );
-            document.getElementById('editBookDialog').style.display = "none";
+            var editDialog = document.getElementById('editBookDialog');
+            editDialog.style.visibility = "hidden";
+            editDialog.style.opacity = "0";
         }
 
 
@@ -80,14 +84,18 @@
                 $('#deleteBookTitle').html(my_data[1]);
                 $('#deleteBookAuthor').html(my_data[2])
             } );
-            document.getElementById('deleteBookDialog').style.display = "";
+            var deleteDialog = document.getElementById('deleteBookDialog');
+            deleteDialog.style.visibility = "visible";
+            deleteDialog.style.opacity = "1";
         }
 
         function hideDeleteDialog() {
             $('#bookID').val('');
             $('#deleteBookTitle').val('')
             $('#deleteBookAuthor').val('')
-            document.getElementById('deleteBookDialog').style.display = "none";
+            var deleteDialog = document.getElementById('deleteBookDialog');
+            deleteDialog.style.visibility = "hidden";
+            deleteDialog.style.opacity = "0";
         }
 
         function linkToDeleteBook() {

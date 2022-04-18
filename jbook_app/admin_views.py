@@ -52,10 +52,10 @@ def add_book():
 
             if handleToAdd():
                 flash('The book has been successfully added')
-                redirect(url_for('admin_work'))
+                return redirect(url_for('admin_work'))
             else:
                 flash('Cannot upload book to database')
-                redirect(url_for('admin_work'))
+                return redirect(url_for('admin_work'))
         return render_template('for_admin/admin_book.html')
     else:
         return redirect(url_for('my_admin'))

@@ -10,25 +10,28 @@
     </a>
 </div>
 
-<div class="warning-alert-container">
-    {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-            <!-- Do something with the message -->
-                <div class="alert alert-warning" role="alert">
-                    {{ messages[0] }}
-                </div>
-                {% endfor %}
-            {% endif %}
-    {% endwith %}
-</div>
 
 <div class="workspace-main-container">
 
-    <div class="add-book-button-container">
-        <a href="admin/add-book">
-            <button type="button" class="btn btn-success add-book-button">Add book</button>
-        </a>
+    <div class="workspace-table-top-part">
+        <div class="admin-work-alert-container">
+            {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                    <!-- Do something with the message -->
+                        <div class="alert alert-info" role="alert">
+                            {{ messages[0] }}
+                        </div>
+                        {% endfor %}
+                    {% endif %}
+            {% endwith %}
+        </div>
+        
+        <div class="add-book-button-container">
+            <a href="admin/add-book">
+                <button type="button" class="btn btn-success add-book-button">Add book</button>
+            </a>
+        </div>
     </div>
     
     <div class="workspace-table-container">
@@ -76,65 +79,66 @@
     </div>
 </div>
 <!-------------------------------------------------------------->
-
-<div class="popup-window-container" id="editBookDialog" style="display: none;">
-    <form class="admin-book-container" enctype="multipart/form-data" action="admin-work" method="post">
-
-        <div class="title-container">
-            Edit Book
-        </div>
-        <input id="bookID" name="book_id" style="display: none;">
+<div class="popup-overlay" id="editBookDialog">
+    <div class="popup-window-container">
+        <form enctype="multipart/form-data" action="admin-work" method="post">
+    
+            <div class="title-container">
+                Edit Book
+            </div>
+            <input id="bookID" name="book_id" style="display: none;">
+            
         
-    
-        <div class="admin-input-container">
-            <div class="book-input-group1">
-    
-                <input class="form-control admin-login-input" id="bookTitleInput" type="text" name="book_title" 
-                placeholder="Title" required>
-    
-                <input class="form-control admin-login-input" id="bookAuthorInput" type="text" name="book_author" 
-                placeholder="Author" required>
-                <div class="mb-3" style="margin-top: 10px;">
-                    <textarea class="form-control" id="bookDescriptionInput" name="book_description" rows="7" 
-                    placeholder="Description" required></textarea>
+            <div class="admin-input-container">
+                <div class="book-input-group1">
+        
+                    <input class="form-control admin-login-input" id="bookTitleInput" type="text" name="book_title" 
+                    placeholder="Title" required>
+        
+                    <input class="form-control admin-login-input" id="bookAuthorInput" type="text" name="book_author" 
+                    placeholder="Author" required>
+                    <div class="mb-3" style="margin-top: 10px;">
+                        <textarea class="form-control" id="bookDescriptionInput" name="book_description" rows="7" 
+                        placeholder="Description" required></textarea>
+                    </div>
                 </div>
-            </div>
-    
-            <div class="book-input-group2">
-                <select class="form-select" aria-placeholder="Category" id="bookCategoryInput" name="book_category" style="margin-top: 15px;" required>
-                    <option value="">Category</option>
-                    <option value="Science">Science</option>
-                    <option value="Literature">Literature</option>
-                    <option value="Language">Language</option>
-                    <option value="Business">Business</option>
-                    <option value="Programming">Programming</option>
-                    <option value="Self development">Self development</option>
-                </select>
-                <div class="mb-3" style="margin-top: 15px;">
-                    <label for="formFile" class="form-label">Upload image of book</label>
-                    <input class="form-control" type="file" name="book_img" accept=".jpg, .png, .jpeg, .gif" required>
-                </div>
-                <div class="mb-3" style="margin-top: 10px;">
-                    <label for="formFile" class="form-label">Upload book in pdf format</label>
-                    <input class="form-control" type="file" name="book_file" accept=".pdf" required>
-                </div> 
-                <div class="admin-book-button-container">
-                
-                    <button id="cancelBookButton" type="button" onclick="hideEditDialog()" class="btn btn-warning admin-book-button">Cancel</button>
-                    <button class="btn btn-success admin-book-button" type="submit">Update</button>
+        
+                <div class="book-input-group2">
+                    <select class="form-select" aria-placeholder="Category" id="bookCategoryInput" name="book_category" style="margin-top: 15px;" required>
+                        <option value="">Category</option>
+                        <option value="Science">Science</option>
+                        <option value="Literature">Literature</option>
+                        <option value="Language">Language</option>
+                        <option value="Business">Business</option>
+                        <option value="Programming">Programming</option>
+                        <option value="Self development">Self development</option>
+                    </select>
+                    <div class="mb-3" style="margin-top: 15px;">
+                        <label for="formFile" class="form-label">Upload image of book</label>
+                        <input class="form-control" type="file" name="book_img" accept=".jpg, .png, .jpeg, .gif" required>
+                    </div>
+                    <div class="mb-3" style="margin-top: 10px;">
+                        <label for="formFile" class="form-label">Upload book in pdf format</label>
+                        <input class="form-control" type="file" name="book_file" accept=".pdf" required>
+                    </div> 
+                    <div class="admin-book-button-container">
                     
+                        <button id="cancelBookButton" type="button" onclick="hideEditDialog()" class="btn btn-warning admin-book-button">Cancel</button>
+                        <button class="btn btn-success admin-book-button" type="submit">Update</button>
+                        
+                    </div>
                 </div>
             </div>
-        </div>
+        
+        </form>
+    </div>
     
-    </form>
 </div>
 
 <!-------------------------------------------------------------------------------->
 
-
-<div class="popup-window-container" id="deleteBookDialog" style="display: none">
-    <div class="delete-book-container">
+<div class="popup-overlay" id="deleteBookDialog">
+    <div class="popup-window-container">
         <h3 class="form-label sure-delete-txt">Are you sure to delete this book ?</h2>
         <input id="bookID" name="bookId" style="display: none;">
         <a style="font-size: 20px; font-weight: bold;">Title: </a>
@@ -151,7 +155,6 @@
             <button id="cancelDeleteButton" onclick="hideDeleteDialog()" type="button" class="btn btn-warning admin-book-button">Cancel</button>
             
         </div>
-
     </div>
 </div>
 
