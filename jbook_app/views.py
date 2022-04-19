@@ -1,10 +1,11 @@
-from jbook_app import my_app
+from jbook_app import getAllBook, getAllBooksForUsers, my_app
 from flask import render_template
 
 # For users
 @my_app.route('/')
 def main_page():
-    return render_template('for_users/home.html')
+    _books = getAllBooksForUsers()
+    return render_template('for_users/home.html', books=_books)
 
 
 @my_app.route('/about')

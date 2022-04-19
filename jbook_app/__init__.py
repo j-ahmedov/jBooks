@@ -1,3 +1,4 @@
+from base64 import b64encode
 from datetime import datetime
 from flask import Flask, send_file, session
 from datetime import timedelta
@@ -120,6 +121,21 @@ def addBook(_bookTitle, _bookAuthor, _bookDescription, _bookCategory, _bookImage
 # Function, that returns all book data from database
 def getAllBook():
     return Book.query.all()
+
+
+def getAllBooksForUsers():
+    bookList = []
+    _books = Book.query.all()
+    for i in _books:
+        bookDict = {
+            'id': i.id,
+            'title': i.title,
+            'author': i.author,
+            'description': i.description,
+            'img': b64encode(i.img_data).decode("utf-8")
+            },
+        bookList.append(bookDict)
+    return bookList
 
 
 # -------------------------------------------------------
