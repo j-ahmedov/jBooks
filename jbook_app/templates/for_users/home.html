@@ -1,12 +1,12 @@
 {% extends "index.html" %}
 
 {% block data_container %}
-  <div class="title-container" style="margin: 10px; font-weight: bold;">
-    Books
+  <div class="title-container">
+    {{ book_type }} Books
   </div>
   {% for i in books %}
     {% for j in i %}
-      <div class="book-container">
+      <div class="book-container card-with-shadow">
         <div class="card mb-3" style="max-width: 800px; padding: 5px;">
           <div class="row g-0">
             <div class="col-md-4 book-image-container">

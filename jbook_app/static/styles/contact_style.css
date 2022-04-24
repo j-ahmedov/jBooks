@@ -2,12 +2,12 @@
     padding: 10px;
 }
 
-.contact-card {
+/* .contact-card {
     box-shadow: 0 0 5px rgba(0,0,0,0.5);
-}
+} */
 
 .contact-form-title {
-    margin-left: 20px;
+    margin-left: 10px;
     font-size: 30px;
     font-weight: bold;
     color: rgb(67, 103, 150);
@@ -15,7 +15,7 @@
 
 .contact-detail-container {
     display: flex;
-    margin-top: 50px;
+    margin-top: 40px;
     margin-bottom: 30px;
     justify-content: space-around;
 }

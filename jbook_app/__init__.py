@@ -4,13 +4,24 @@ from flask import Flask, send_file, session
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from io import BytesIO
+from flask_mail import Mail, Message
+
 
 
 my_app = Flask(__name__)
-my_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:myp0stgr3sql@localhost/jBooksDB'
+my_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/dbName'
 my_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 my_app.config['SECRET_KEY'] = '123456789zxc'
 my_app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
+
+my_app.config['MAIL_SERVER']='smtp.gmail.com'
+my_app.config['MAIL_PORT'] = 587
+my_app.config['MAIL_USERNAME'] = 'you_email'
+my_app.config['MAIL_PASSWORD'] = 'your_email_password'
+my_app.config['MAIL_USE_TLS'] = True
+my_app.config['MAIL_USE_SSL'] = False
+
+mail = Mail(my_app)
 
 db = SQLAlchemy(my_app)
 
@@ -122,21 +133,38 @@ def addBook(_bookTitle, _bookAuthor, _bookDescription, _bookCategory, _bookImage
 def getAllBook():
     return Book.query.all()
 
-
+# ----------------------------------------------------------
+# Function, that returns all books for users
 def getAllBooksForUsers():
     bookList = []
-    _books = Book.query.all()
+    _books = Book.query.order_by(Book.id.desc()).all()
     for i in _books:
         bookDict = {
             'id': i.id,
             'title': i.title,
             'author': i.author,
             'description': i.description,
-            'img': b64encode(i.img_data).decode("utf-8")
+            'img': b64encode(i.img_data).decode()
             },
         bookList.append(bookDict)
     return bookList
 
+
+# -------------------------------------------------------
+# Function to return book by Category
+def getBookByCategory(_category):
+    bookList = []
+    _books = Book.query.filter_by(category=_category).all()
+    for i in _books:
+        bookDict = {
+            'id': i.id,
+            'title': i.title,
+            'author': i.author,
+            'description': i.description,
+            'img': b64encode(i.img_data).decode()
+            },
+        bookList.append(bookDict)
+    return bookList
 
 # -------------------------------------------------------
 # Function to delete book by ID
@@ -192,6 +220,24 @@ def download_file(book_id):
     book = Book.query.filter_by(id=book_id).first()
     return send_file(BytesIO(book.file_data), attachment_filename=book.file_name, as_attachment=True)
 
+
+# --------------------------------------------------------------
+# Function to send message from users to moderators
+def send_mail(_senderName, _senderEmail, _senderMessage):
+    msg = Message(
+        f'Message from {_senderName}',
+        sender=_senderEmail,
+        recipients=['recipient_email']
+    )
+    msg.body = f'{_senderMessage}\n\nWhith redard!\n{_senderEmail}'
+
+    try:
+        mail.send(msg)
+    except Exception as e:
+        print(e)
+        return False
+    return True
+    
 
 
 from jbook_app import views

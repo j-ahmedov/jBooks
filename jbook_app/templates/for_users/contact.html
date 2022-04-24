@@ -4,21 +4,33 @@
   <!-- <div class="title-container" style="margin: 10px; font-weight: bold;">
     Contact Us
   </div> -->
+  <div class="admin-work-alert-container">
+      {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                  {% for message in messages %}
+              <!-- Do something with the message -->
+                  <div class="alert alert-info" role="alert">
+                      {{ messages[0] }}
+                  </div>
+                  {% endfor %}
+              {% endif %}
+      {% endwith %}
+  </div>
 
-  <div class="contact-form-container">
-    <div class="card contact-card">
+  <form class="contact-form-container" method="post">
+    <div class="card card-with-shadow">
       <!-- <h5 class="card-header">Featured</h5> -->
       <div class="card-body">
         <h5 class="card-title contact-form-title">Contact Us</h5>
         <div class="contact-detail-container">
-          <input class="form-control contact-detail-input" type="text" placeholder="Your Name" aria-label="default input example">
-          <input class="form-control contact-detail-input" type="email" placeholder="Your Email" aria-label="default input example">
+          <input class="form-control contact-detail-input", name="sender_name" type="text" placeholder="Your Name" aria-label="default input example" required>
+          <input class="form-control contact-detail-input" name="sender_email" type="email" placeholder="Your Email" aria-label="default input example" required>
         </div>
         <div class="mb-3">
-          <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="Message"></textarea>
+          <textarea class="form-control" name="sender_message" id="exampleFormControlTextarea1" rows="10" placeholder="Message" required></textarea>
         </div>
         <div class="contact-form-button">
-          <a href="#" class="btn btn-primary ">Send message</a>
+          <button type="submit" class="btn btn-primary ">Send message</button>
         </div>
       </div>
     </div>
