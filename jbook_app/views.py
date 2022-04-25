@@ -1,15 +1,23 @@
-from jbook_app import getAllBooksForUsers, getBookByCategory, my_app, send_mail
+from jbook_app import getAllBooksForUsers, getBookByCategory, getBookBySearch, my_app, send_mail
 from flask import flash, redirect, render_template, request, url_for
 
 
-# For users
-@my_app.route('/')
+# ---------------------------For users-------------------------------------------------
+# Main route
+@my_app.route('/', methods=['POST', 'GET'])
 def main_page():
-    _books = getAllBooksForUsers()
-    _book_type = 'Latest'
-    return render_template('for_users/home.html', books=_books, book_type=_book_type)
+    search_word = request.args.get('search_word')
+    if search_word:
+        _books = getBookBySearch(search_word)
+        _bookType = 'Searched'
+    else:
+        _books = getAllBooksForUsers()
+        _bookType = 'Latest'
+    return render_template('for_users/home.html', books=_books, book_type=_bookType)
 
 
+# -------------------------------------------------------------------------------
+# Category routes
 @my_app.route('/category/<category_num>')
 def science_category(category_num):
     categoryDict = {
@@ -25,11 +33,15 @@ def science_category(category_num):
     return render_template('for_users/home.html', books=_books, book_type=_book_type)
 
 
+# -------------------------------------------------------------------------------
+# About route
 @my_app.route('/about')
 def about_page():
     return render_template('for_users/about.html')
 
 
+# -------------------------------------------------------------------------------
+# Contact us route
 @my_app.route('/contact', methods=['POST', 'GET'])
 def contact_page():
     if request.method == 'POST':
@@ -43,3 +55,4 @@ def contact_page():
             flash('Something went wrong')
             return redirect(url_for('contact_page'))
     return render_template('for_users/contact.html')
+

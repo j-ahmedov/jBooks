@@ -7,17 +7,16 @@ from io import BytesIO
 from flask_mail import Mail, Message
 
 
-
 my_app = Flask(__name__)
-my_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/dbName'
+my_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/DB_Name'
 my_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-my_app.config['SECRET_KEY'] = '123456789zxc'
+my_app.config['SECRET_KEY'] = 'secret_key'
 my_app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 my_app.config['MAIL_SERVER']='smtp.gmail.com'
 my_app.config['MAIL_PORT'] = 587
-my_app.config['MAIL_USERNAME'] = 'you_email'
-my_app.config['MAIL_PASSWORD'] = 'your_email_password'
+my_app.config['MAIL_USERNAME'] = 'sender_email'
+my_app.config['MAIL_PASSWORD'] = 'sender_email_password'
 my_app.config['MAIL_USE_TLS'] = True
 my_app.config['MAIL_USE_SSL'] = False
 
@@ -166,6 +165,27 @@ def getBookByCategory(_category):
         bookList.append(bookDict)
     return bookList
 
+
+# -------------------------------------------------------
+# Function to get book by searching
+def getBookBySearch(_searchWord):
+    _searchWord1 = _searchWord.lower()
+    _searchWord2 = _searchWord.title()
+    bookList = []
+    _books = Book.query.filter(Book.title.contains(_searchWord1) | Book.title.contains(_searchWord2) |
+    Book.description.contains(_searchWord1) | Book.description.contains(_searchWord2)).all()
+    for i in _books:
+        bookDict = {
+            'id': i.id,
+            'title': i.title,
+            'author': i.author,
+            'description': i.description,
+            'img': b64encode(i.img_data).decode()
+            },
+        bookList.append(bookDict)
+    return bookList
+
+
 # -------------------------------------------------------
 # Function to delete book by ID
 def deleteBookById(book_id):
@@ -227,7 +247,7 @@ def send_mail(_senderName, _senderEmail, _senderMessage):
     msg = Message(
         f'Message from {_senderName}',
         sender=_senderEmail,
-        recipients=['recipient_email']
+        recipients=['recipient_name']
     )
     msg.body = f'{_senderMessage}\n\nWhith redard!\n{_senderEmail}'
 
