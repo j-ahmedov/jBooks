@@ -21,6 +21,7 @@ def my_admin():
 
 
 # ------------------------------------------------------------------
+# Admin workspace route
 @my_app.route('/admin-work', methods=["POST", "GET"])
 def admin_work():
     if 'loggedin' in session:
@@ -42,6 +43,7 @@ def admin_work():
  
 
 # ------------------------------------------------------------------
+# Add book route
 @my_app.route('/admin/add-book', methods=["POST", "GET"])
 def add_book():
     if 'loggedin' in session:
@@ -62,6 +64,7 @@ def add_book():
 
 
 # ------------------------------------------------------------------
+# Delete book route
 @my_app.route('/admin/delete-book/<int:book_id>', methods=["POST", "GET"])
 def delete_book(book_id):
     if 'loggedin' in session:
@@ -76,21 +79,23 @@ def delete_book(book_id):
 
 
 # ------------------------------------------------------------------
+# Admin logout route
 @my_app.route('/admin-logout')
 def logout():
     session.pop('loggedin', None)
     session.pop('username', None)
     return redirect(url_for('my_admin'))
 
+
 # ------------------------------------------------------------------
 # Function to add book data to database 
-
 def bookExists():
     book_title = request.form.get("book_title")
     book_author = request.form.get("book_author")
     if checkBook(book_title, book_author):
         return True
     return False
+
 
 # ------------------------------------------------------------------
 # Function to add book data to database    
