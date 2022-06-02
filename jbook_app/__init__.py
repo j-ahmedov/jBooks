@@ -58,9 +58,9 @@ def checkBook(_bookTitle, _bookAuthor):
 
 # ---------------------------------------------------------------------------
 # Function to add book data to Database
-def addBook(_book): 
+def addBook(book): 
     try:
-        db.session.add(_book)
+        db.session.add(book)
         db.session.commit()
     except Exception as e:
         print(e)
