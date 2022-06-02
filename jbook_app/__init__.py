@@ -7,15 +7,15 @@ from flask_mail import Mail, Message
 
 
 my_app = Flask(__name__)
-my_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:myp0stgr3sql@localhost/jBooksDB'
+my_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:dbpassword@localhost/dbName'
 my_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-my_app.config['SECRET_KEY'] = '123456789zxc'
+my_app.config['SECRET_KEY'] = 'app_security_key'
 my_app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
 
 my_app.config['MAIL_SERVER']='smtp.gmail.com'
 my_app.config['MAIL_PORT'] = 587
-my_app.config['MAIL_USERNAME'] = 'j.ahmedov.m99@gmail.com'
-my_app.config['MAIL_PASSWORD'] = '1sforchann3ls2019'
+my_app.config['MAIL_USERNAME'] = 'email'
+my_app.config['MAIL_PASSWORD'] = 'password'
 my_app.config['MAIL_USE_TLS'] = True
 my_app.config['MAIL_USE_SSL'] = False
 
